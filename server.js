@@ -1,8 +1,20 @@
 const express = require('express')
-const path = require('path')
 const app = express()
+const path = require('path')
+
+
 const {bots, playerRecord} = require('./data')
 const {shuffleArray} = require('./utils')
+
+var Rollbar = require('rollbar')
+var rollbar = new Rollbar({
+  accessToken: 'a00a4c7d118b4e97a6c40fa20557382a',
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+})
+
+// record a generic message and send it to Rollbar
+rollbar.log('Hello world!')
 
 app.use(express.json())
 
@@ -22,8 +34,10 @@ app.get('/js', function(req, res) {
 app.get('/api/robots', (req, res) => {
     try {
         res.status(200).send(botsArr)
+        rollbar.info('Someone got the list of robots to load on the page')
     } catch (error) {
         console.log('ERROR GETTING BOTS', error)
+        rollbar.error('ERROR GETTING BOTS', error)
         res.sendStatus(400)
     }
 })
@@ -61,9 +75,11 @@ app.post('/api/duel', (req, res) => {
         if (compHealthAfterAttack > playerHealthAfterAttack) {
             playerRecord.losses++
             res.status(200).send('You lost!')
+            rollbar.info('Someone just lost!')
         } else {
             playerRecord.losses++
             res.status(200).send('You won!')
+            rollbar.info('The computer just won!')
         }
     } catch (error) {
         console.log('ERROR DUELING', error)
@@ -79,6 +95,8 @@ app.get('/api/player', (req, res) => {
         res.sendStatus(400)
     }
 })
+
+app.use(rollbar.errorHandler());
 
 const port = process.env.PORT || 3000
 

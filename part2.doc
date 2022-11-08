@@ -1,0 +1,35 @@
+Part 2 Manual Testing
+
+Testing Plan / Result
+Test that:
+“See All Bots” btn produces all bot cards FAILS
+“Draw” btn produces 5 bot cards at random PASSES
+“Add to Duo” btn on bot cards adds that card under the “Your Duo” heading PASSES
+Only 2 bot cards can be added under “Your Duo” heading and that alert appears PASSES
+“Remove from Duo” btn no bot card pushes card back to the selection bot area PASSES
+“Duel!” btn takes user to the duel page PASSES
+Duel occurs and produces a “You lost!” heading PASSES
+A loss is incremented next to the right of “Losses” heading FAILS
+Duel occurs and produces a “You win!” heading PASSES
+A win is incremented next to the right of “Wins” FAILS
+“Play again!” btn takes user back to the draw page PASSES
+Refresh btn resets wins/losses count FAILS
+
+Identified bugs from manual testing
+“See All Bots” button does not work
+“Wins” do not tally up. A win gets added to the losses
+Refreshing the page does not rest the wins/losses tally
+
+Bug Report
+See All Bots
+Selecting the “See All Bots” btn fails to produce all bot cards on the app.
+
+Wins/Losses
+The losses heading equals itself plus all losses and wins. No wins get incremented to the right of the “Wins” heading. 
+
+Refresh tally
+When the app is refreshed the wins/losses tally fails to reset back to having a zero value. 
+
+
+Automation testing plan
+Write tests for all 12 points. Debug 3 found bugs. Ensure all tests pass. 
